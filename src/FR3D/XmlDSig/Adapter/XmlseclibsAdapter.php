@@ -117,7 +117,7 @@ class XmlseclibsAdapter implements AdapterInterface
         return $this;
     }
 
-    public function sign(DOMDocument $data, DOMNode $appendTo = null)
+    public function sign(DOMDocument $data, DOMNode $appendTo = null, $options = array('force_uri' => true))
     {
         if (null === $this->privateKey) {
             throw new RuntimeException(
@@ -138,7 +138,7 @@ class XmlseclibsAdapter implements AdapterInterface
         }
         
         $objXMLSecDSig = new XMLSecurityDSig();
-        $objXMLSecDSig->addReference($data, $this->digestAlgorithm, $this->transforms, array('force_uri' => true));
+        $objXMLSecDSig->addReference($data, $this->digestAlgorithm, $this->transforms, $options);
         $objXMLSecDSig->setCanonicalMethod($this->canonicalMethod);
         $objXMLSecDSig->sign($objKey, $appendTo);
 
